@@ -1,0 +1,7 @@
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: 591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:latest
+    
