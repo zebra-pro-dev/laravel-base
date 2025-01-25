@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y curl ca-certificates git unzip libpq-de
 
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
-     && install-php-extensions curl mysqli opcache pdo pdo_mysql exif bcmath intl pcntl zip mbstring gd \
+     && install-php-extensions curl mysqli opcache pdo pdo_mysql pdo_pgsql pgsql exif bcmath intl pcntl zip mbstring gd \
         imagick mongodb rdkafka
 
 
