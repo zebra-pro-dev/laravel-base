@@ -9,12 +9,15 @@ RUN apt-get update && apt-get install -y curl ca-certificates git unzip libpq-de
         && install -d /usr/share/postgresql-common/pgdg \
         && curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc \
         && sh -c "echo \"deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt \$(awk -F= '/VERSION_CODENAME/ { print \$2 }' /etc/os-release)-pgdg main\" > /etc/apt/sources.list.d/pgdg.list" \
-        && apt update && apt -y install postgresql-client-16
+        && apt update && apt -y install postgresql-client-16 \
+        && apt-get -y autoremove \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
      && install-php-extensions curl mysqli opcache pdo pdo_mysql pdo_pgsql pgsql exif bcmath intl pcntl zip mbstring gd \
-        imagick mongodb rdkafka
+        imagick mongodb rdkafka grpc swoole
 
 
 # Copy composer executable.

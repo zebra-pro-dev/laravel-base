@@ -1,0 +1,31 @@
+- name: Name images
+  hosts: localhost
+  gather_facts: false
+  tasks:
+      - name: Set Version
+        ansible.builtin.command:
+            cmd: jq -r '.version' meta.json
+        register: version
+        changed_when: true
+
+      # - name: Build docker compose images
+      #   ansible.builtin.command:
+      #       cmd: docker compose build --no-cache
+      #   changed_when: true
+
+      - name: Add Tag and Push
+        community.docker.docker_image_tag:
+            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:latest"
+            repository:
+                - "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:latest"
+                - "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:{{ version.stdout }}"
+
+      - name: Push latest image
+        community.docker.docker_image_push:
+            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image"
+            tag: latest
+
+      - name: Push image v{{ version.stdout }}
+        community.docker.docker_image_push:
+            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image"
+            tag: "{{ version.stdout }}"
