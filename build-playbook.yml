@@ -15,17 +15,17 @@
 
       - name: Add Tag and Push
         community.docker.docker_image_tag:
-            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:latest"
+            name: "public.ecr.aws/zebralearn/ecom-base:latest"
             repository:
-                - "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:latest"
-                - "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image:{{ version.stdout }}"
+                - "public.ecr.aws/zebralearn/ecom-base:latest"
+                - "public.ecr.aws/zebralearn/ecom-base:{{ version.stdout }}"
 
       - name: Push latest image
         community.docker.docker_image_push:
-            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image"
+            name: "public.ecr.aws/zebralearn/ecom-base"
             tag: latest
 
       - name: Push image v{{ version.stdout }}
         community.docker.docker_image_push:
-            name: "591815746004.dkr.ecr.ap-south-1.amazonaws.com/ecom-base-image"
+            name: "public.ecr.aws/zebralearn/ecom-base"
             tag: "{{ version.stdout }}"
