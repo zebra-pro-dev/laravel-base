@@ -3,4 +3,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+            platforms:
+                - linux/amd64
+                - linux/arm64
         image: public.ecr.aws/zebralearn/ecom-base:latest

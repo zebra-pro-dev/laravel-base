@@ -1,5 +1,5 @@
 # Used for prod build.
-FROM php:8.2-fpm AS php
+FROM php:8.2-fpm-bookworm AS php
 ARG NODE_VERSION=20
 ARG POSTGRES_VERSION=16
 
@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y gnupg gosu curl ca-certificates git unz
         && npm install -g npm \
         && npm install -g pnpm \
         && apt-get -y autoremove \
+        && curl https://install.duckdb.org | sh \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
