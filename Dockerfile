@@ -25,8 +25,15 @@ RUN apt-get update && apt-get install -y gnupg gosu curl ca-certificates git unz
 
 
 RUN chmod +x /usr/local/bin/install-php-extensions \
-     && install-php-extensions curl mysqli opcache pdo pdo_mysql pdo_pgsql pgsql exif bcmath intl pcntl zip mbstring gd \
-        imagick mongodb rdkafka grpc swoole redis
+     && install-php-extensions curl mysqli opcache pdo pdo_mysql pdo_pgsql pgsql exif bcmath intl pcntl zip mbstring gd
+             
+RUN nstall-php-extensions  imagick
+RUN nstall-php-extensions  mongodb
+RUN nstall-php-extensions  rdkafka
+RUN nstall-php-extensions  grpc
+RUN nstall-php-extensions  swoole
+RUN nstall-php-extensions  redis
+
 
 
 # Copy composer executable.
