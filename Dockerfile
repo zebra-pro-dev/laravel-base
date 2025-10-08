@@ -28,7 +28,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
      && install-php-extensions curl mysqli opcache pdo pdo_mysql pdo_pgsql pgsql exif bcmath intl pcntl zip mbstring gd
              
 
-# RUN install-php-extensions  imagick
+RUN install-php-extensions  imagick
 # RUN install-php-extensions  mongodb
 # RUN install-php-extensions  rdkafka
 # RUN install-php-extensions  grpc
