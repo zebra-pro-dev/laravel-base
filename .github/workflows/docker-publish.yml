@@ -67,6 +67,8 @@ jobs:
           build-args: |
             NODE_VERSION=20
             POSTGRES_VERSION=16
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Image digest
         run: echo "Published image digest ${{ steps.build-and-push.outputs.digest }}"
