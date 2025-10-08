@@ -15,17 +15,17 @@
 
       - name: Add Tag and Push
         community.docker.docker_image_tag:
-            name: "public.ecr.aws/zebralearn/ecom-base:latest"
+            name: "ghcr.io/zebra-pro-dev/laravel-base:latest"
             repository:
-                - "public.ecr.aws/zebralearn/ecom-base:latest"
-                - "public.ecr.aws/zebralearn/ecom-base:{{ version.stdout }}"
+                - "ghcr.io/zebra-pro-dev/laravel-base:latest"
+                - "ghcr.io/zebra-pro-dev/laravel-base:{{ version.stdout }}"
 
       - name: Push latest image
         community.docker.docker_image_push:
-            name: "public.ecr.aws/zebralearn/ecom-base"
+            name: "ghcr.io/zebra-pro-dev/laravel-base"
             tag: latest
 
       - name: Push image v{{ version.stdout }}
         community.docker.docker_image_push:
-            name: "public.ecr.aws/zebralearn/ecom-base"
+            name: "ghcr.io/zebra-pro-dev/laravel-base"
             tag: "{{ version.stdout }}"
