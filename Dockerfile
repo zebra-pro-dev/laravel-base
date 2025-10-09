@@ -45,7 +45,7 @@ COPY --from=cobiro/php:8.2-service-grpc /usr/local/lib/php/extensions/no-debug-n
 # Copy the gRPC PHP configuration file
 COPY --from=cobiro/php:8.2-service-grpc /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
-# RUN install-php-extensions  swoole
+RUN install-php-extensions  swoole
 
 # Copy composer executable.
 COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
