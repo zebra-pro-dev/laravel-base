@@ -31,11 +31,21 @@ RUN chmod +x /usr/local/bin/install-php-extensions \
 RUN install-php-extensions  imagick
 RUN install-php-extensions  mongodb
 RUN install-php-extensions  rdkafka
-RUN install-php-extensions  grpc
-RUN install-php-extensions  swoole
+# RUN install-php-extensions  grpc
+
+COPY --from=cobiro/php:8.2-service-grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/grpc.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
+
+# Copy the gRPC PHP configuration file
+COPY --from=cobiro/php:8.2-service-grpc /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini
+
+
 # RUN install-php-extensions  redis
+COPY --from=cobiro/php:8.2-service-grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
 
+# Copy the gRPC PHP configuration file
+COPY --from=cobiro/php:8.2-service-grpc /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
+# RUN install-php-extensions  swoole
 
 # Copy composer executable.
 COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
