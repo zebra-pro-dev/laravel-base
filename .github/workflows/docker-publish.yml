@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -51,7 +52,7 @@ jobs:
           tags: |
             type=raw,value=latest
             type=raw,value=${{ steps.vars.outputs.version }}
-            type=raw,value=${{ github.ref_name }}
+            type=ref,event=tag,pattern=v{{version}}
           labels: |
             org.opencontainers.image.source=${{ github.repositoryUrl }}
             org.opencontainers.image.version=${{ steps.vars.outputs.version }}
@@ -67,8 +68,8 @@ jobs:
           build-args: |
             NODE_VERSION=20
             POSTGRES_VERSION=16
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
       - name: Image digest
         run: echo "Published image digest ${{ steps.build-and-push.outputs.digest }}"
