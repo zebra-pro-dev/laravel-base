@@ -32,7 +32,7 @@ RUN install-php-extensions  imagick
 RUN install-php-extensions  mongodb
 RUN install-php-extensions  rdkafka
 RUN install-php-extensions  grpc
-# RUN install-php-extensions  swoole
+RUN install-php-extensions  swoole
 # RUN install-php-extensions  redis
 
 
