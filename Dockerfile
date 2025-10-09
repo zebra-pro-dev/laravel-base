@@ -1,9 +1,4 @@
-# Used for prod build.
-ARG TARGETARCH
-ARG TARGETOS
-ARG COBIRO_PLATFORM=${TARGETOS}/${TARGETARCH}
-
-FROM --platform=${COBIRO_PLATFORM} cobiro/php:8.2-service-grpc AS cobiro_grpc
+FROM --platform=${TARGETOS}/${TARGETARCH} cobiro/php:8.2-service-grpc AS cobiro_grpc
 
 FROM php:8.2-fpm-bookworm AS php
 ARG NODE_VERSION=20
