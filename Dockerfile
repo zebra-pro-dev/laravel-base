@@ -2,6 +2,9 @@
 FROM php:8.2-fpm-bookworm AS php
 ARG NODE_VERSION=20
 ARG POSTGRES_VERSION=16
+ARG TARGETARCH
+ARG TARGETOS
+
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -32,18 +35,19 @@ RUN install-php-extensions  imagick
 RUN install-php-extensions  mongodb
 RUN install-php-extensions  rdkafka
 # RUN install-php-extensions  grpc
+# Accept platform from build (pass --build-arg COBIRO_PLATFORM=linux/amd64 from GH Actions)
+ARG COBIRO_PLATFORM=${TARGETOS}/${TARGETARCH}
+FROM --platform=${COBIRO_PLATFORM} cobiro/php:8.2-service-grpc AS cobiro_grpc
 
-COPY --from=cobiro/php:8.2-service-grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/grpc.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
-
-# Copy the gRPC PHP configuration file
-COPY --from=cobiro/php:8.2-service-grpc /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini
+COPY --from=cobiro_grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/grpc.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
+COPY --from=cobiro_grpc /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini
 
 
 # RUN install-php-extensions  redis
-COPY --from=cobiro/php:8.2-service-grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
+COPY --from=cobiro_grpc /usr/local/lib/php/extensions/no-debug-non-zts-20220829/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20220829/
 
 # Copy the gRPC PHP configuration file
-COPY --from=cobiro/php:8.2-service-grpc /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+COPY --from=cobiro_grpc /usr/local/etc/php/conf.d/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
 RUN install-php-extensions  swoole
 

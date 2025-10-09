@@ -1,0 +1,6 @@
+FROM alpine:latest
+
+ARG TARGETARCH
+ARG TARGETOS
+
+RUN echo "Building for architecture: ${TARGETARCH} on OS: ${TARGETOS}"
