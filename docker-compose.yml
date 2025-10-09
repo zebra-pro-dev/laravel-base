@@ -6,4 +6,4 @@ services:
             platforms:
                 - linux/amd64
                 - linux/arm64
-        image: ghcr.io/zebra-pro-dev/laravel-base:latest
+        image: ghcr.io/zebralearn/laravel-base:latest

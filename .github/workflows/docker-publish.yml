@@ -73,3 +73,18 @@ jobs:
 
       - name: Image digest
         run: echo "Published image digest ${{ steps.build-and-push.outputs.digest }}"
+  github-release:
+    name: create github release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          generateReleaseNotes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
